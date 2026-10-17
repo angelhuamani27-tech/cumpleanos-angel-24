@@ -151,6 +151,8 @@
 .countdown-label{margin-top:4px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .gift-note{margin-top:9px;font-size:11px;line-height:1.6;text-align:center;color:var(--gold);text-wrap:balance}
 .gift-note>span{margin-left:3px}
+.event-place .place-arrow{width:14px;height:14px;margin-left:4px;color:var(--gold)}
+@media(hover:hover){a.event-place:hover h2{color:var(--gold)}}
 /* Phone layout follows the available viewport and keeps the content in normal flow. */
 @media(max-width:767px){
   .invitation-page{
@@ -400,7 +402,7 @@ function Hero(c,guest='') {
       </header>
       <div class="event-when"><div>${icon('calendar')}<time datetime="${c.event.date}"><strong>${c.labels.day} de ${h(c.labels.month.toLowerCase())}</strong><span>${h(weekday)} · ${c.labels.year}</span></time></div><div>${icon('clock')}<time datetime="${c.event.date}T${c.event.time}:00${c.event.utcOffset}"><strong>${h(c.event.displayTime)}</strong><span>Hora de Perú</span></time></div></div>
       ${c.features.countdown?Countdown():''}
-      <div class="event-place">${icon('pin')}<div><h2>${h(c.location.name)}</h2><p class="place-city">${h(c.location.city)} · ${h(c.location.country)}</p><p class="address">${h(c.location.reference)}</p></div></div>
+      <a class="event-place" href="${h(c.location.mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ubicación de ${h(c.location.name)} en Google Maps">${icon('pin')}<div><h2>${h(c.location.name)} ${icon('arrow','place-arrow')}</h2><p class="place-city">${h(c.location.city)} · ${h(c.location.country)}</p><p class="address">${h(c.location.reference)}</p></div></a>
       <div class="location-actions"><a class="button button-whatsapp" id="confirm-whatsapp" href="https://wa.me/${c.whatsapp.number}?text=${encodeURIComponent('Hola Angel, confirmo mi asistencia a tu cumpleaños.')}" target="_blank" rel="noopener noreferrer">${icon('whatsapp')} Confirmar por WhatsApp</a><a class="button button-outline" id="view-location" href="${h(c.location.mapsUrl)}" target="_blank" rel="noopener noreferrer">Ver ubicación ${icon('arrow')}</a><button type="button" class="button button-share-location" id="share-location">${icon('share')} Compartir ubicación</button></div>
       <footer class="invitation-footer"><p class="closing">Te espero <span aria-hidden="true">✧</span></p>
       <p class="gift-note">¡Ven con regalo! <span aria-hidden="true">🎁</span></p></footer>
@@ -413,7 +415,7 @@ function Countdown() {
   return `<section class="countdown" aria-labelledby="countdown-title">
     <p class="eyebrow">LA CUENTA REGRESIVA</p>
     <h2 id="countdown-title" aria-live="polite" aria-atomic="true">Falta muy poco.</h2>
-    <div class="countdown-grid" role="timer" aria-label="Tiempo que falta para el cumpleaños" aria-live="off">${units.map(([key,label])=>`<div class="countdown-unit"><span class="countdown-number" id="count-${key}">00</span><span class="countdown-label">${label}</span></div>`).join('')}</div>
+    <div class="countdown-grid" role="timer" aria-label="Tiempo que falta para el cumpleaños" aria-live="off">${units.map(([key,label])=>`<div class="countdown-unit"><span class="countdown-number" id="count-${key}">00</span> <span class="countdown-label">${label}</span></div>`).join('')}</div>
   </section>`;
 }
 function initCountdown(c) {
@@ -432,6 +434,7 @@ function initCountdown(c) {
   };
   tick();
   document.addEventListener('visibilitychange',tick);
+  window.addEventListener('pageshow',tick);
   return setInterval(tick,1000);
 }
 
