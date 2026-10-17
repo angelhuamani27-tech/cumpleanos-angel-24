@@ -141,23 +141,21 @@
 }
 
 /* Compact countdown integrated into the event details. */
-.countdown{width:100%;max-width:270px;align-self:center;margin:14px auto 0;text-align:center}
-.countdown>.eyebrow{font-size:6px;letter-spacing:.18em}
+.countdown{width:100%;max-width:240px;align-self:center;margin:14px auto 0;text-align:center}
+.countdown>.eyebrow{font-size:7px;letter-spacing:.18em}
 .countdown h2{font:400 23px/1.15 var(--serif);letter-spacing:-.025em;margin-top:3px;text-wrap:balance}
-.countdown-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:8px 0 0}
+.countdown-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:8px 0 0}
 .countdown-unit{position:relative;min-width:0;display:flex;flex-direction:column;align-items:center}
 .countdown-unit+.countdown-unit:before{content:':';position:absolute;left:0;top:5px;transform:translateX(-50%);font:400 14px/1 var(--serif);color:#dec28a80}
 .countdown-number{font:400 32px/1 var(--serif);font-variant-numeric:lining-nums tabular-nums;letter-spacing:.015em}
-.countdown-label{margin-top:4px;font-size:6px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.countdown-message{margin-top:8px;font-size:9px;line-height:1.5;color:var(--muted);text-wrap:balance}
-.gift-note{margin-top:9px;font-size:10px;line-height:1.6;text-align:center;color:var(--muted);text-wrap:balance}
-.gift-note>span{margin-right:3px}
-.gift-note strong{font-weight:500;color:var(--gold)}
+.countdown-label{margin-top:4px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.gift-note{margin-top:9px;font-size:11px;line-height:1.6;text-align:center;color:var(--gold);text-wrap:balance}
+.gift-note>span{margin-left:3px}
 @media(max-width:600px){
-  .countdown{margin-top:12px;max-width:250px}
+  .countdown{margin-top:12px;max-width:230px}
   .countdown h2{font-size:22px}
   .countdown-number{font-size:30px}
-  .gift-note{font-size:9px;margin-top:8px}
+  .gift-note{font-size:10px;margin-top:8px}
 }
 </style>
 
@@ -308,18 +306,17 @@ function Hero(c,guest='') {
       <div class="event-place">${icon('pin')}<div><h2>${h(c.location.name)}</h2><p class="place-city">${h(c.location.city)} · ${h(c.location.country)}</p><p class="address">${h(c.location.reference)}</p></div></div>
       <div class="location-actions"><a class="button button-whatsapp" id="confirm-whatsapp" href="https://wa.me/${c.whatsapp.number}?text=${encodeURIComponent('Hola Angel, confirmo mi asistencia a tu cumpleaños.')}" target="_blank" rel="noopener noreferrer">${icon('whatsapp')} Confirmar por WhatsApp</a><a class="button button-outline" id="view-location" href="${h(c.location.mapsUrl)}" target="_blank" rel="noopener noreferrer">Ver ubicación ${icon('arrow')}</a><button type="button" class="button button-share-location" id="share-location">${icon('share')} Compartir ubicación</button></div>
       <p class="closing">Te espero <span aria-hidden="true">✧</span></p>
-      <p class="gift-note"><span aria-hidden="true">🎁</span> Eso sí: <strong>venir con regalo es obligatorio.</strong></p>
+      <p class="gift-note">¡Ven con regalo! <span aria-hidden="true">🎁</span></p>
     </div>
   </article>`;
 }
 
 function Countdown() {
-  const units=[['days','Días'],['hours','Horas'],['minutes','Minutos'],['seconds','Segundos']];
+  const units=[['days','Días'],['hours','Horas'],['minutes','Minutos']];
   return `<section class="countdown" aria-labelledby="countdown-title">
     <p class="eyebrow">LA CUENTA REGRESIVA</p>
-    <h2 id="countdown-title">Falta muy poco.</h2>
+    <h2 id="countdown-title" aria-live="polite" aria-atomic="true">Falta muy poco.</h2>
     <div class="countdown-grid" role="timer" aria-label="Tiempo que falta para el cumpleaños" aria-live="off">${units.map(([key,label])=>`<div class="countdown-unit"><span class="countdown-number" id="count-${key}">00</span><span class="countdown-label">${label}</span></div>`).join('')}</div>
-    <p id="countdown-message" class="countdown-message" role="status" aria-live="polite" aria-atomic="true">Cada vez falta menos para encontrarnos.</p>
   </section>`;
 }
 function initCountdown(c) {
@@ -330,12 +327,11 @@ function initCountdown(c) {
   };
   const tick=()=>{
     const now=Date.now(), result=countdown(now,c);
-    for(const key of ['days','hours','minutes','seconds']){
+    for(const key of ['days','hours','minutes']){
       update('#count-'+key,String(result[key]).padStart(2,'0'));
     }
     $('.countdown-grid').hidden=now>=start;
     update('#countdown-title',now>=end?'Una noche para recordar.':now>=start?'¡Hoy es el gran día!':'Falta muy poco.');
-    update('#countdown-message',now>=end?result.message:now>=start?'La celebración ya comenzó.':'Cada vez falta menos para encontrarnos.');
   };
   tick();
   document.addEventListener('visibilitychange',tick);
