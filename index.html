@@ -151,60 +151,106 @@
 .countdown-label{margin-top:4px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .gift-note{margin-top:9px;font-size:11px;line-height:1.6;text-align:center;color:var(--gold);text-wrap:balance}
 .gift-note>span{margin-left:3px}
-@media(max-width:600px){
+/* Phone layout follows the available viewport and keeps the content in normal flow. */
+@media(max-width:767px){
   .invitation-page{
-    padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));
+    --edge-top:max(8px,env(safe-area-inset-top));
+    --edge-bottom:max(8px,env(safe-area-inset-bottom));
+    display:block;min-height:100svh;
+    padding:var(--edge-top) max(8px,env(safe-area-inset-right)) var(--edge-bottom) max(8px,env(safe-area-inset-left));
   }
-  .invitation-scene{max-width:420px;min-width:0}
-  .invitation{max-width:none}
-  .invitation-photo{height:clamp(100px,17svh,150px)}
+  .invitation-scene{width:100%;max-width:480px;min-width:0;margin-inline:auto}
+  .invitation{display:flex;flex-direction:column;max-width:none;min-height:calc(100svh - var(--edge-top) - var(--edge-bottom))}
+  .invitation-photo{flex:none;min-height:0;height:clamp(110px,21svh,190px)}
   .invitation-photo img{object-position:50% 18%}
-  .invitation-content{padding:18px 22px 16px}
-  .invitation-content:before{inset:8px}
-  .invitation h1{font-size:clamp(38px,10.5vw,46px);line-height:1;margin-top:5px}
-  .invitation-note{font-size:10px;line-height:1.5;margin-top:5px}
-  .guest-greeting{font-size:17px;margin-bottom:6px}
-  .event-when{margin-top:12px;padding-block:10px;gap:12px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+  .invitation-photo:after{background:linear-gradient(0deg,#10233888,transparent 55%)}
+  .invitation-content{flex:1;min-width:0;padding:18px clamp(16px,5vw,26px);gap:12px;justify-content:space-between}
+  .invitation-content:before{inset:8px;border-top:0}
+  .invitation-heading,.invitation-footer{min-width:0}
+  .invitation-heading>.eyebrow{font-size:8px;letter-spacing:.12em}
+  .invitation h1{font-size:clamp(38px,11vw,50px);line-height:1.05;margin-top:4px;overflow-wrap:break-word}
+  .invitation-note{font-size:11px;line-height:1.5;margin-top:5px;max-width:none}
+  .guest-greeting{font-size:18px;margin-bottom:6px}
+  .event-when{margin:0;padding:10px 0;gap:10px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
   .event-when>div{gap:7px}
-  .event-when time{gap:2px}
-  .event-when strong{font-size:11px}
-  .event-when time span{font-size:8px}
-  .event-when .icon{width:15px;height:15px;margin-top:2px}
-  .countdown{
-    max-width:none;margin-top:10px;display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
-    column-gap:12px;row-gap:2px;text-align:left;
+  .event-when time{min-width:0;gap:3px}
+  .event-when strong{font-size:12px;white-space:normal;line-height:1.4}
+  .event-when time span{font-size:9px;line-height:1.4}
+  .event-when .icon{width:16px;height:16px;margin-top:2px}
+  .countdown{width:100%;max-width:none;display:block;margin:0;text-align:center}
+  .countdown>.eyebrow{font-size:7px;letter-spacing:.12em;line-height:1.4}
+  .countdown h2{font-size:19px;line-height:1.15;margin-top:2px}
+  .countdown-grid{width:100%;max-width:280px;margin:6px auto 0;gap:8px}
+  .countdown-unit{flex-direction:row;align-items:baseline;justify-content:center;gap:4px}
+  .countdown-unit+.countdown-unit:before{font-size:11px;top:4px;left:-4px}
+  .countdown-number{font-size:24px;line-height:1}
+  .countdown-label{font-size:8px;line-height:1.3;letter-spacing:.025em;margin:0}
+  .event-place{margin:0;gap:8px}
+  .event-place>.icon{width:17px;height:17px;margin-top:2px}
+  .event-place h2{font-size:14px;line-height:1.4}
+  .place-city{font-size:10px;line-height:1.5;margin-top:2px}
+  .address{font-size:11px;line-height:1.5;margin-top:5px;max-width:none;overflow-wrap:break-word}
+  .location-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0}
+  .location-actions>.button-whatsapp{grid-column:1/-1;min-height:46px;font-size:12px;padding:10px}
+  .location-actions>#view-location,.location-actions>#share-location{min-width:0;min-height:44px;padding:8px 5px;gap:5px;font-size:10px;line-height:1.4}
+  .location-actions .icon{width:16px;height:16px}
+  .closing{font-size:20px;line-height:1.2;margin:0}
+  .gift-note{font-size:11px;line-height:1.5;margin-top:4px}
+}
+@supports(height:100dvh){
+  @media(max-width:767px){
+    .invitation-page{min-height:100dvh}
+    .invitation{min-height:calc(100dvh - var(--edge-top) - var(--edge-bottom))}
+    .invitation-photo{height:clamp(110px,21dvh,190px)}
   }
-  .countdown>.eyebrow{grid-column:1;grid-row:1;align-self:end;font-size:7px;letter-spacing:.1em;line-height:1.4}
-  .countdown h2{grid-column:1;grid-row:2;align-self:start;font-size:19px;line-height:1.1;margin:0}
-  .countdown-grid{grid-column:2;grid-row:1/3;align-self:center;margin:0;text-align:center}
-  .countdown-number{font-size:25px}
-  .countdown-label{font-size:7px;letter-spacing:.035em;margin-top:3px}
-  .countdown-unit+.countdown-unit:before{font-size:12px;top:4px}
-  .event-place{margin-top:12px;gap:8px}
-  .event-place>.icon{width:16px;height:16px;margin-top:2px}
-  .event-place h2{font-size:13px;line-height:1.4}
-  .place-city{font-size:9px;line-height:1.5}
-  .address{font-size:10px;line-height:1.45;margin-top:4px;overflow-wrap:break-word}
-  .location-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:12px}
-  .location-actions>.button-whatsapp{grid-column:1/-1;min-height:44px;font-size:11px;padding:10px 12px}
-  .location-actions>#view-location,.location-actions>#share-location{min-height:44px;padding:8px 5px;gap:5px;font-size:9px}
-  .location-actions .icon{width:15px;height:15px}
-  .closing{font-size:19px;line-height:1.1;margin-top:10px}
-  .gift-note{font-size:10px;line-height:1.4;margin-top:5px}
 }
 @media(max-width:359px){
-  .invitation-content{padding-inline:18px}
-  .countdown{column-gap:8px;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
-  .countdown h2{font-size:18px}
-  .countdown-number{font-size:24px}
+  .invitation-content{padding-inline:16px;gap:10px}
+  .invitation h1{font-size:38px}
+  .countdown-grid{gap:6px}
+  .countdown-unit{gap:3px}
+  .countdown-number{font-size:23px}
+  .countdown-label{font-size:8px}
+  .location-actions>#view-location,.location-actions>#share-location{font-size:9px}
 }
-@media(max-width:600px) and (max-height:660px){
+@media(max-width:767px) and (max-height:680px){
   .invitation-photo{height:90px}
-  .invitation-content{padding-top:14px;padding-bottom:14px}
-  .event-when{margin-top:10px;padding-block:8px}
-  .event-place,.location-actions{margin-top:10px}
-  .closing{margin-top:8px}
+  .invitation-content{padding-block:14px;gap:9px}
+  .invitation h1{font-size:38px}
+  .event-when{padding-block:8px}
+  .countdown h2{font-size:18px}
+  .countdown-grid{margin-top:4px}
+}
+@media(max-width:767px) and (orientation:landscape){
+  .invitation-photo{height:100px}
+  .invitation{min-height:0}
+}
+
+/* Keep the cover usable when the browser bars, orientation or text size change. */
+@media(max-width:767px){
+  .opening{
+    height:auto;min-height:100svh;display:flex;flex-direction:column;gap:16px;
+    padding:max(24px,env(safe-area-inset-top)) max(26px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(26px,env(safe-area-inset-left));
+  }
+  .opening-photo{inset:0}
+  .opening-photo img{object-position:58% 32%;opacity:.65}
+  .opening-shade{background:linear-gradient(0deg,#07111ff7 0%,#07111fba 38%,#07111f70 72%,#07111fbd 100%)}
+  .opening-frame{inset:12px}
+  .cover-top,.cover-bottom{position:relative;inset:auto;width:100%;gap:8px}
+  .cover-top>.eyebrow{font-size:7px;letter-spacing:.14em;text-align:right}
+  .cover-star{font-size:29px}
+  .opening-content{position:relative;inset:auto;transform:none;width:100%;margin:auto 0;padding:16px 0}
+  .opening-greeting{font-size:8px;letter-spacing:.12em;margin-bottom:14px}
+  .opening h1{font-size:clamp(40px,11.5vw,68px);white-space:normal;line-height:1.05}
+  .opening-sub{font-size:10px;margin-top:10px}
+  .opening-age{font-size:clamp(125px,25svh,210px);margin:12px auto 16px}
+  .opening-age>span{font-size:26px;right:-24px}
+  .opening .button{width:min(100%,270px);min-width:0;min-height:48px;padding:12px;font-size:9px;gap:14px;letter-spacing:.08em}
+  .cover-bottom{flex-wrap:wrap;font-size:8px;letter-spacing:.08em}
+  .cover-bottom>span:first-child{font-size:16px}
+}
+@supports(height:100dvh){
+  @media(max-width:767px){.opening{min-height:100dvh}}
 }
 </style>
 
@@ -346,16 +392,18 @@ function Hero(c,guest='') {
   return `<article class="invitation" aria-labelledby="invitation-title">
     <figure class="invitation-photo"><picture><source type="image/webp" srcset="${c.photos.main}"><img src="${c.photos.fallback}" alt="${h(c.photos.alt)}" width="640" height="640" fetchpriority="high" decoding="async"></picture></figure>
     <div class="invitation-content">
+      <header class="invitation-heading">
       ${guest?`<p class="guest-greeting">Para ${h(guest)}</p>`:''}
       <p class="eyebrow">TE INVITO A MI CUMPLEAÑOS</p>
       <h1 id="invitation-title">${h(c.celebrant.displayName.split(' ')[0])} <em>${h(c.celebrant.displayName.split(' ').slice(1).join(' '))}</em></h1>
       <p class="invitation-note">Una noche especial para compartir contigo.</p>
+      </header>
       <div class="event-when"><div>${icon('calendar')}<time datetime="${c.event.date}"><strong>${c.labels.day} de ${h(c.labels.month.toLowerCase())}</strong><span>${h(weekday)} · ${c.labels.year}</span></time></div><div>${icon('clock')}<time datetime="${c.event.date}T${c.event.time}:00${c.event.utcOffset}"><strong>${h(c.event.displayTime)}</strong><span>Hora de Perú</span></time></div></div>
       ${c.features.countdown?Countdown():''}
       <div class="event-place">${icon('pin')}<div><h2>${h(c.location.name)}</h2><p class="place-city">${h(c.location.city)} · ${h(c.location.country)}</p><p class="address">${h(c.location.reference)}</p></div></div>
       <div class="location-actions"><a class="button button-whatsapp" id="confirm-whatsapp" href="https://wa.me/${c.whatsapp.number}?text=${encodeURIComponent('Hola Angel, confirmo mi asistencia a tu cumpleaños.')}" target="_blank" rel="noopener noreferrer">${icon('whatsapp')} Confirmar por WhatsApp</a><a class="button button-outline" id="view-location" href="${h(c.location.mapsUrl)}" target="_blank" rel="noopener noreferrer">Ver ubicación ${icon('arrow')}</a><button type="button" class="button button-share-location" id="share-location">${icon('share')} Compartir ubicación</button></div>
-      <p class="closing">Te espero <span aria-hidden="true">✧</span></p>
-      <p class="gift-note">¡Ven con regalo! <span aria-hidden="true">🎁</span></p>
+      <footer class="invitation-footer"><p class="closing">Te espero <span aria-hidden="true">✧</span></p>
+      <p class="gift-note">¡Ven con regalo! <span aria-hidden="true">🎁</span></p></footer>
     </div>
   </article>`;
 }
