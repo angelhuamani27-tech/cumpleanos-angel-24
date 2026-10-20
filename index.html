@@ -411,7 +411,7 @@ function Hero(c,guest='') {
 }
 
 function Countdown() {
-  const units=[['days','Días'],['hours','Horas'],['minutes','Minutos']];
+  const units=[['hours','Horas'],['minutes','Minutos'],['seconds','Segundos']];
   return `<section class="countdown" aria-labelledby="countdown-title">
     <p class="eyebrow">LA CUENTA REGRESIVA</p>
     <h2 id="countdown-title" aria-live="polite" aria-atomic="true">Falta muy poco.</h2>
@@ -426,8 +426,9 @@ function initCountdown(c) {
   };
   const tick=()=>{
     const now=Date.now(), result=countdown(now,c);
-    for(const key of ['days','hours','minutes']){
-      update('#count-'+key,String(result[key]).padStart(2,'0'));
+    for(const key of ['hours','minutes','seconds']){
+      const value=key==='hours'?result.days*24+result.hours:result[key];
+      update('#count-'+key,String(value).padStart(2,'0'));
     }
     $('.countdown-grid').hidden=now>=start;
     update('#countdown-title',now>=end?'Una noche para recordar.':now>=start?'¡Hoy es el gran día!':'Falta muy poco.');
